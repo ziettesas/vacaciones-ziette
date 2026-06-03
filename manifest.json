@@ -1,0 +1,24 @@
+{
+  "name": "Ziette Vacaciones",
+  "short_name": "Ziette Vac",
+  "description": "Sistema de gestión de vacaciones Ziette",
+  "start_url": "/vacaciones-ziette/",
+  "display": "standalone",
+  "background_color": "#1A2530",
+  "theme_color": "#FF4B00",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
