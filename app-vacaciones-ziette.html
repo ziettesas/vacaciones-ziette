@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ziette Vacaciones</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ziette Vacaciones">
+  <meta name="theme-color" content="#FF4B00">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ═══════════════════════════════════════════
+       VARIABLES DE TEMA ZIETTE
+    ═══════════════════════════════════════════ */
+    :root {
+      --orange:      #FF4B00;
+      --orange-light:#FF6B2B;
+      --orange-pale: #FFF0E8;
+      --cobalt:      #2C3E50;
+      --cobalt-dark: #1A2530;
+      --cobalt-mid:  #34495E;
+      --cobalt-light:#4A6278;
+      --gray-bg:     #F4F6F8;
+      --gray-border: #DDE3EA;
+      --white:       #FFFFFF;
+      --text-dark:   #1A2530;
+      --text-mid:    #4A6278;
+      --text-light:  #8FA3B1;
+      --success:     #27AE60;
+      --danger:      #E74C3C;
+      --warning:     #F39C12;
+      --shadow-sm:   0 2px 8px rgba(26,37,48,.08);
+      --shadow-md:   0 6px 24px rgba(26,37,48,.12);
+      --shadow-lg:   0 16px 48px rgba(26,37,48,.18);
+      --radius:      12px;
+      --radius-sm:   8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ═══════════ HEADER ═══════════ */
+    .header {
+      background: var(--cobalt-dark);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.3);
+    }
+    .logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; color: white; font-size: 14px;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-name { color: #C8D6E0; font-size: 14px; }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid var(--cobalt-light);
+      color: var(--text-light);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all .2s;
+    }
+    .btn-logout:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ═══════════ NAV TABS ═══════════ */
+    .nav-tabs {
+      background: var(--cobalt);
+      display: flex;
+      gap: 4px;
+      padding: 0 24px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #8FA3B1;
+      padding: 14px 20px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+    .tab-btn:hover { color: #C8D6E0; }
+    .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+    .tab-btn .badge {
+      background: var(--orange);
+      color: white;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+
+    /* ═══════════ MAIN ═══════════ */
+    .main { max-width: 900px; margin: 0 auto; padding: 28px 20px; }
+
+    /* ═══════════ CARDS ═══════════ */
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--cobalt-dark);
+      margin-bottom: 4px;
+    }
+    .card-sub {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    /* ═══════════ BALANCE WIDGET ═══════════ */
+    .balance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .balance-box {
+      background: var(--gray-bg);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+    .balance-box.highlight { border-color: var(--orange); background: var(--orange-pale); }
+    .balance-box.warning-box { border-color: var(--warning); background: #FFF9E6; }
+    .balance-num {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--cobalt-dark);
+      line-height: 1;
+    }
+    .balance-box.highlight .balance-num { color: var(--orange); }
+    .balance-box.warning-box .balance-num { color: var(--warning); }
+    .balance-label { font-size: 12px; color: var(--text-light); margin-top: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; }
+
+    /* ═══════════ CALENDARIO ═══════════ */
+    .calendar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .cal-month-label { font-size: 17px; font-weight: 600; color: var(--cobalt-dark); }
+    .cal-nav-btn {
+      background: none;
+      border: 1px solid var(--gray-border);
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cobalt-mid);
+      transition: all .15s;
+    }
+    .cal-nav-btn:hover { background: var(--gray-bg); border-color: var(--cobalt-light); }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-header {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      padding: 6px 0;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .15s;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .cal-day.empty { cursor: default; }
+    .cal-day.weekend, .cal-day.holiday {
+      color: var(--text-light);
+      background: #F8F9FA;
+      cursor: not-allowed;
+    }
+    .cal-day.holiday { background: #FEF3F2; color: #FDA29B; }
+    .cal-day.past { color: #CDD5DB; cursor: not-allowed; }
+    .cal-day.workday:hover { background: var(--orange-pale); border-color: var(--orange-light); color: var(--orange); }
+    .cal-day.selected { background: var(--orange); color: white; border-color: var(--orange); }
+    .cal-day.today::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+    .cal-day.selected.today::after { background: white; }
+    .cal-day.approved-vacation { background: #D5F5E3; color: var(--success); }
+    .cal-legend {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-mid);
+    }
+    .legend-dot {
+      width: 14px; height: 14px;
+      border-radius: 4px;
+    }
+
+    /* ═══════════ SELECTED DAYS ═══════════ */
+    .selected-days-panel {
+      background: var(--orange-pale);
+      border: 1px solid #FFD4BC;
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin: 20px 0;
+    }
+    .selected-days-panel h4 { color: var(--orange); margin-bottom: 10px; font-size: 14px; }
+    .day-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .day-chip {
+      background: white;
+      border: 1px solid var(--orange-light);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      color: var(--cobalt-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .day-chip button {
+      background: none;
+      border: none;
+      color: var(--orange);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    /* ═══════════ BOTONES ═══════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-secondary {
+      background: white;
+      color: var(--cobalt-dark);
+      border: 1.5px solid var(--gray-border);
+    }
+    .btn-secondary:hover { border-color: var(--cobalt-light); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #219A52; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #C0392B; }
+    .btn-sm { padding: 7px 14px; font-size: 13px; }
+
+    /* ═══════════ SOLICITUDES TABLE ═══════════ */
+    .request-card {
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 12px;
+      transition: box-shadow .2s;
+    }
+    .request-card:hover { box-shadow: var(--shadow-sm); }
+    .req-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .req-name { font-weight: 600; color: var(--cobalt-dark); font-size: 16px; }
+    .req-date { font-size: 12px; color: var(--text-light); }
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-pendiente { background: #FFF3CD; color: #856404; }
+    .status-aprobada  { background: #D1FAE5; color: #065F46; }
+    .status-rechazada { background: #FEE2E2; color: #991B1B; }
+    .req-days { font-size: 13px; color: var(--text-mid); margin-bottom: 12px; }
+    .req-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* ═══════════ FORMULARIO NOTAS ═══════════ */
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--cobalt-mid); margin-bottom: 6px; }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color .15s;
+      color: var(--text-dark);
+    }
+    .form-control:focus { outline: none; border-color: var(--orange); }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+
+    /* ═══════════ POPUP ═══════════ */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(2px);
+    }
+    .popup {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .popup-icon { font-size: 52px; margin-bottom: 16px; }
+    .popup-title { font-size: 20px; font-weight: 700; color: var(--cobalt-dark); margin-bottom: 10px; }
+    .popup-text { color: var(--text-mid); font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
+    .popup-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    /* ═══════════ TOAST ═══════════ */
+    #toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      z-index: 9999;
+      min-width: 280px;
+      max-width: 380px;
+    }
+    .toast-msg {
+      background: var(--cobalt-dark);
+      color: white;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      animation: slideIn .3s ease;
+    }
+    .toast-msg.success { border-left: 4px solid var(--success); }
+    .toast-msg.error   { border-left: 4px solid var(--danger); }
+    .toast-msg.info    { border-left: 4px solid var(--orange); }
+    @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* ═══════════ LOGIN PAGE ═══════════ */
+    .login-page {
+      min-height: 100vh;
+      background: var(--cobalt-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-card {
+      background: white;
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+    }
+    .login-logo { font-size: 48px; font-weight: 300; color: var(--orange); letter-spacing: -2px; margin-bottom: 8px; }
+    .login-sub { color: var(--text-light); font-size: 14px; margin-bottom: 36px; }
+    .login-title { font-size: 20px; font-weight: 600; color: var(--cobalt-dark); margin-bottom: 8px; }
+    #google-signin-btn { margin-top: 8px; display: flex; justify-content: center; }
+
+    /* ═══════════ LOADING ═══════════ */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      color: var(--text-light);
+      gap: 16px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--gray-border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════ EMPTY STATE ═══════════ */
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--text-light); }
+    .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* ═══════════ ALERT BANNER ═══════════ */
+    .alert-banner {
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .alert-warning { background: #FFF9E6; border: 1px solid #FFE08A; color: #7D5A00; }
+    .alert-info    { background: #EAF2FF; border: 1px solid #BDD7FF; color: #1855A3; }
+    .alert-success { background: #D5F5E3; border: 1px solid #A9DFBF; color: #0E6027; }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    @media (max-width: 600px) {
+      .main { padding: 16px 12px; }
+      .card { padding: 18px; }
+      .login-card { padding: 32px 24px; }
+      .balance-num { font-size: 32px; }
+    }
+
+    .hidden { display: none !important; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .flex { display: flex; }
+    .gap-2 { gap: 8px; }
+    .mt-3 { margin-top: 16px; }
+    .mt-4 { margin-top: 24px; }
+    .text-center { text-align: center; }
+
+    /* Tooltip festivos */
+    .cal-day[data-tip] { position: relative; }
+    .cal-day[data-tip]:hover::before {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cobalt-dark);
+      color: white;
+      font-size: 11px;
+      white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 6px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Setup section */
+    .setup-warning {
+      background: #FFF3CD;
+      border: 2px solid var(--warning);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .setup-warning h3 { color: var(--warning); margin-bottom: 8px; font-size: 16px; }
+    .setup-warning p  { color: #7D5A00; font-size: 14px; line-height: 1.6; }
+    .setup-warning code {
+      background: #FFF9E6;
+      border: 1px solid #FFE08A;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .config-inputs { display: grid; gap: 12px; margin-top: 16px; }
+
+    /* mis solicitudes status row */
+    .my-req-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .my-req-row:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════ -->
+<div id="loginPage" class="login-page">
+  <div class="login-card" style="max-width:480px;">
+    <img src="logo-ziette.png" alt="Ziette" id="loginLogo" style="height:60px;width:auto;margin:0 auto 6px;cursor:pointer;" onclick="adminClickCounter()" onerror="this.outerHTML='<div class=&quot;login-logo&quot; onclick=&quot;adminClickCounter()&quot; style=&quot;cursor:pointer&quot;>Ziette</div>'">
+    <div class="login-sub">Sistema de Gestión de Vacaciones</div>
+
+    <!-- PANEL NORMAL DE LOGIN -->
+    <div id="loginNormal">
+      <h2 class="login-title">Iniciar sesión</h2>
+      <p style="color:var(--text-light);font-size:13px;margin-bottom:24px;">
+        Usa tu cuenta de Google corporativa para acceder
+      </p>
+      <button class="btn btn-primary" onclick="startGoogleLogin()" style="width:100%;justify-content:center;font-size:15px;padding:14px;">
+        <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink:0"><path fill="#FFF" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/></svg>
+        Ingresar con Google
+      </button>
+      <div id="loginError" class="hidden" style="margin-top:16px;color:var(--danger);font-size:13px;"></div>
+      <!-- Link secreto: solo visible para admin (5 clics en el logo lo activa) -->
+      <div id="adminConfigLink" class="hidden" style="margin-top:16px;">
+        <button onclick="showLoginSetup()" style="background:none;border:1px solid var(--gray-border);color:var(--text-light);cursor:pointer;font-size:12px;padding:6px 12px;border-radius:6px;width:100%;">⚙️ Configuración de administrador</button>
+      </div>
+    </div>
+
+    <!-- PANEL DE CONFIGURACIÓN INICIAL (visible cuando no hay Client ID) -->
+    <div id="loginSetup" class="hidden">
+      <h2 class="login-title" style="margin-bottom:6px;">⚙️ Configuración inicial</h2>
+      <p style="color:var(--text-light);font-size:13px;margin-bottom:20px;">
+        Ingresa los datos de Google Cloud para activar la app.
+        <a href="#" onclick="showLoginNormal()" style="color:var(--orange);">Ya configuré → ir al login</a>
+      </p>
+      <div style="display:grid;gap:12px;text-align:left;">
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--cobalt-mid);margin-bottom:5px;">Google OAuth Client ID</label>
+          <input class="form-control" id="cfgClientIdLogin" placeholder="xxxxx.apps.googleusercontent.com" style="font-size:13px;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--cobalt-mid);margin-bottom:5px;">ID del Google Sheet</label>
+          <input class="form-control" id="cfgSheetIdLogin" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" style="font-size:13px;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--cobalt-mid);margin-bottom:5px;">Email de RRHH</label>
+          <input class="form-control" id="cfgHrEmailLogin" placeholder="rrhh@ziette.co" type="email" style="font-size:13px;" />
+        </div>
+        <button class="btn btn-primary" onclick="saveConfigFromLogin()" style="width:100%;justify-content:center;">Guardar y continuar</button>
+      </div>
+      <p style="margin-top:14px;font-size:11px;color:var(--text-light);line-height:1.5;">
+        ¿No tienes los datos? Consulta la <strong>Guía de Configuración</strong> incluida en el proyecto.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP PRINCIPAL
+══════════════════════════════════════ -->
+<div id="appRoot" class="hidden">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo"><img src="logo-ziette.png" alt="Ziette" onerror="this.parentElement.innerHTML='<span style=\'font-size:26px;font-weight:300;color:#FF4B00;\'>Ziette</span>'"></div>
+    <div class="header-user">
+      <div class="avatar" id="userAvatar"></div>
+      <span class="user-name" id="userNameDisplay"></span>
+      <button class="btn-logout" onclick="signOut()">Salir</button>
+    </div>
+  </header>
+
+  <!-- NAV TABS -->
+  <nav class="nav-tabs" id="navTabs">
+    <button class="tab-btn active" onclick="switchTab('solicitar')" id="tab-solicitar">Solicitar Vacaciones</button>
+    <button class="tab-btn" onclick="switchTab('mis-solicitudes')" id="tab-mis-solicitudes">Mis Solicitudes</button>
+    <button class="tab-btn hidden" onclick="switchTab('aprobaciones')" id="tab-aprobaciones">
+      Aprobaciones <span class="badge hidden" id="pendingBadge">0</span>
+    </button>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- SETUP WARNING (se muestra si falta config) -->
+    <div id="setupSection" class="setup-warning hidden">
+      <h3>⚙️ Configuración requerida</h3>
+      <p>Antes de usar la app, ingresa las credenciales de Google Cloud y el ID del Google Sheet.</p>
+      <div class="config-inputs">
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Google OAuth Client ID</label>
+          <input class="form-control" id="cfgClientId" placeholder="xxxxx.apps.googleusercontent.com" />
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">ID del Google Sheet (de la URL)</label>
+          <input class="form-control" id="cfgSheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" />
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Email de RRHH (copia en todas las notificaciones)</label>
+          <input class="form-control" id="cfgHrEmail" placeholder="rrhh@ziette.co" type="email" />
+        </div>
+        <button class="btn btn-primary" onclick="saveConfig()">Guardar configuración</button>
+      </div>
+    </div>
+
+    <!-- ALERTA 15 DIAS -->
+    <div id="alert15dias" class="alert-banner alert-warning hidden">
+      <span>⚠️</span>
+      <div>
+        <strong>¡Atención!</strong> Tienes acumulados <strong id="alert15count">0</strong> días hábiles de vacaciones.
+        Según la ley colombiana ya deberías programarlas. ¡Coordina con tu jefe pronto!
+      </div>
+    </div>
+
+    <!-- ═══════ TAB: SOLICITAR ═══════ -->
+    <div class="page active" id="page-solicitar">
+      <div class="card">
+        <div class="card-title">Mis Vacaciones</div>
+        <div class="card-sub" id="employeeInfo">Cargando información del empleado...</div>
+
+        <div class="balance-grid">
+          <div class="balance-box highlight">
+            <div class="balance-num" id="diasDisponibles">–</div>
+            <div class="balance-label">Total disponibles</div>
+          </div>
+          <div class="balance-box">
+            <div class="balance-num" id="diasPeriodoActual">–</div>
+            <div class="balance-label">Período actual</div>
+          </div>
+          <div class="balance-box warning-box" id="boxPasados" style="display:none">
+            <div class="balance-num" id="diasPasados">–</div>
+            <div class="balance-label">Días anteriores pendientes</div>
+          </div>
+          <div class="balance-box">
+            <div class="balance-num" id="diasUsados">–</div>
+            <div class="balance-label">Días usados</div>
+          </div>
+        </div>
+        <div id="alertaPasados" class="alert-banner alert-warning hidden" style="margin-bottom:16px;">
+          ⚠️ Tienes <strong id="alertaPasadosCount">0</strong> días de períodos anteriores pendientes por tomar. ¡Recuerda programarlos pronto!
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--gray-border);margin: 0 0 24px;">
+
+        <div class="card-title" style="font-size:16px;">Selecciona los días de vacaciones</div>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+          Solo puedes seleccionar días <strong>hábiles</strong> (lunes a viernes, no festivos).
+        </p>
+
+        <!-- Calendario -->
+        <div class="calendar-nav">
+          <button class="cal-nav-btn" onclick="prevMonth()">‹</button>
+          <span class="cal-month-label" id="calMonthLabel"></span>
+          <button class="cal-nav-btn" onclick="nextMonth()">›</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="cal-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Seleccionado</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#FEF3F2;border:1px solid #FDA29B"></div>Festivo</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#F8F9FA;border:1px solid #DDE3EA"></div>No hábil</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D5F5E3;border:1px solid #A9DFBF"></div>Vacaciones aprobadas</div>
+        </div>
+      </div>
+
+      <!-- Días seleccionados -->
+      <div id="selectedPanel" class="card hidden">
+        <div class="selected-days-panel">
+          <h4>📅 Días seleccionados: <span id="selectedCount">0</span> día(s) hábil(es)</h4>
+          <div class="day-chips" id="dayChips"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notas o comentarios (opcional)</label>
+          <textarea class="form-control" id="requestNotes" placeholder="Agrega cualquier información relevante para tu jefe..."></textarea>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-primary" onclick="submitRequest()">📨 Enviar solicitud</button>
+          <button class="btn btn-secondary" onclick="clearSelection()">Limpiar selección</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ TAB: MIS SOLICITUDES ═══════ -->
+    <div class="page" id="page-mis-solicitudes">
+      <div class="card">
+        <div class="card-title">Mis Solicitudes</div>
+        <div class="card-sub">Historial de todas tus solicitudes de vacaciones</div>
+        <div id="mySolicitudesContent">
+          <div class="loading"><div class="spinner"></div><span>Cargando...</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ TAB: APROBACIONES ═══════ -->
+    <div class="page" id="page-aprobaciones">
+      <div class="card">
+        <div class="card-title">Solicitudes Pendientes de Aprobación</div>
+        <div class="card-sub">Como jefe directo, aquí puedes aprobar o rechazar las vacaciones de tu equipo.</div>
+        <div id="aprobacionesContent">
+          <div class="loading"><div class="spinner"></div><span>Cargando...</span></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════
+     POPUP NOTICE
+══════════════════════════════════════ -->
+<div class="overlay hidden" id="popupNotice">
+  <div class="popup">
+    <div class="popup-icon">📅</div>
+    <div class="popup-title">¡Un momento antes de continuar!</div>
+    <div class="popup-text" id="popupText">
+      Por favor solicite sus vacaciones con la <strong>antelación suficiente</strong>
+      para permitir la planificación adecuada del equipo.<br><br>
+      Se recomienda solicitarlas con al menos <strong>15 días de anticipación</strong>.
+    </div>
+    <div class="popup-actions">
+      <button class="btn btn-primary" onclick="closePopup('confirm')">Entendido, continuar</button>
+      <button class="btn btn-secondary" onclick="closePopup('cancel')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP RECHAZO -->
+<div class="overlay hidden" id="popupReject">
+  <div class="popup">
+    <div class="popup-icon">❌</div>
+    <div class="popup-title">Rechazar solicitud</div>
+    <div class="popup-text">Indica el motivo del rechazo para notificar al trabajador.</div>
+    <div class="form-group" style="text-align:left">
+      <label class="form-label">Motivo</label>
+      <textarea class="form-control" id="rejectReason" placeholder="Escribe el motivo..."></textarea>
+    </div>
+    <div class="popup-actions">
+      <button class="btn btn-danger" onclick="confirmReject()">Confirmar rechazo</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('popupReject').classList.add('hidden')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+'use strict';
+
+// ════════════════════════════════════════
+// CONFIGURACIÓN — valores fijos de producción
+// ════════════════════════════════════════
+const CONFIG = {
+  CLIENT_ID:    '339016314745-e367a9udqrvp88vs8so2vm4vv7s0je8e.apps.googleusercontent.com',
+  SHEET_ID:     '141DLnGIBQU_yWYrN0cltlVAtU11EcXgz7Yu06I6lxrI',
+  HR_EMAIL:     'admon2@acmnetconsulting.com',
+  SCOPES:       'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/gmail.send email profile',
+  SHEET_EMP:    'Empleados',
+  SHEET_SOL:    'Solicitudes',
+};
+
+// ════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════
+let STATE = {
+  user: null,          // { name, email, picture }
+  employee: null,      // fila del empleado en Sheets
+  employees: [],       // todos los empleados
+  solicitudes: [],     // todas las solicitudes
+  selectedDays: [],    // días seleccionados en calendario
+  calYear: 0, calMonth: 0,
+  accessToken: null,
+  pendingRejectId: null,
+  approvedDates: [],   // fechas aprobadas del empleado actual
+  popupConfirmCallback: null,
+};
+
+// ════════════════════════════════════════
+// FESTIVOS COLOMBIA
+// Calcula festivos para cualquier año
+// ════════════════════════════════════════
+function getColombianHolidays(year) {
+  const holidays = new Set();
+  const add = (m, d) => holidays.add(`${year}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+
+  // Festivos fijos
+  add(1, 1);   // Año Nuevo
+  add(5, 1);   // Día del Trabajo
+  add(7, 20);  // Independencia
+  add(8, 7);   // Batalla de Boyacá
+  add(12, 8);  // Inmaculada Concepción
+  add(12, 25); // Navidad
+
+  // Festivos "lunes festivo" (ley Emiliani: se trasladan al siguiente lunes)
+  const nextMonday = (m, d) => {
+    const date = new Date(year, m - 1, d);
+    const dow = date.getDay();
+    if (dow === 1) return date;
+    const diff = dow === 0 ? 1 : (8 - dow);
+    return new Date(year, m - 1, d + diff);
+  };
+  const addMonday = (m, d) => {
+    const dt = nextMonday(m, d);
+    holidays.add(`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`);
+  };
+  addMonday(1, 6);   // Reyes Magos
+  addMonday(3, 19);  // San José
+  addMonday(6, 29);  // San Pedro y San Pablo
+  addMonday(8, 15);  // Asunción de la Virgen
+  addMonday(10, 12); // Día de la Raza
+  addMonday(11, 1);  // Todos los Santos
+  addMonday(11, 11); // Independencia de Cartagena
+
+  // Semana Santa (Jueves y Viernes Santo) — algoritmo de Butcher
+  const easter = getEaster(year);
+  const thu = new Date(easter); thu.setDate(thu.getDate() - 3);
+  const fri = new Date(easter); fri.setDate(fri.getDate() - 2);
+  const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  holidays.add(fmt(thu));
+  holidays.add(fmt(fri));
+
+  // Festivos pascuales trasladados al lunes
+  const addEasterMonday = (offset) => {
+    const dt = new Date(easter);
+    dt.setDate(dt.getDate() + offset);
+    // Trasladar al siguiente lunes
+    const dow = dt.getDay();
+    if (dow !== 1) dt.setDate(dt.getDate() + (dow === 0 ? 1 : 8 - dow));
+    holidays.add(fmt(dt));
+  };
+  addEasterMonday(39); // Ascensión
+  addEasterMonday(60); // Corpus Christi
+  addEasterMonday(68); // Sagrado Corazón
+
+  return holidays;
+}
+
+function getEaster(year) {
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+  const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3), h = (19*a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4, l = (32 + 2*e + 2*i - h - k) % 7;
+  const m = Math.floor((a + 11*h + 22*l) / 451);
+  const month = Math.floor((h + l - 7*m + 114) / 31);
+  const day = ((h + l - 7*m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+
+const HOLIDAY_NAMES = {
+  '01-01': 'Año Nuevo',
+  '05-01': 'Día del Trabajo',
+  '07-20': 'Independencia de Colombia',
+  '08-07': 'Batalla de Boyacá',
+  '12-08': 'Inmaculada Concepción',
+  '12-25': 'Navidad',
+};
+
+function isHoliday(date, holidaySet) {
+  const key = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  return holidaySet.has(key);
+}
+function isWeekend(date) {
+  const d = date.getDay();
+  return d === 0 || d === 6;
+}
+function isWorkday(date, holidaySet) {
+  return !isWeekend(date) && !isHoliday(date, holidaySet);
+}
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+function formatDateES(isoStr) {
+  const [y, m, d] = isoStr.split('-');
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(d)} ${months[parseInt(m)-1]} ${y}`;
+}
+function formatDateFullES(isoStr) {
+  const [y, m, d] = isoStr.split('-');
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return `${parseInt(d)} de ${months[parseInt(m)-1]} de ${y}`;
+}
+
+// ════════════════════════════════════════
+// GOOGLE IDENTITY / AUTH — flujo unificado (1 solo clic)
+// ════════════════════════════════════════
+let _tokenClient = null;
+let _adminClicks = 0;
+
+function adminClickCounter() {
+  _adminClicks++;
+  if (_adminClicks >= 5) {
+    _adminClicks = 0;
+    document.getElementById('adminConfigLink').classList.remove('hidden');
+  }
+}
+
+function initGoogleAuth() {
+  // Un solo cliente OAuth que pide todo en un paso
+  _tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CONFIG.CLIENT_ID,
+    scope: CONFIG.SCOPES,
+    callback: async (tokenResponse) => {
+      if (tokenResponse.error) {
+        document.getElementById('loginError').textContent = 'Error al iniciar sesión. Intenta de nuevo.';
+        document.getElementById('loginError').classList.remove('hidden');
+        return;
+      }
+      STATE.accessToken = tokenResponse.access_token;
+      // Obtener info del usuario desde la API de Google
+      const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${STATE.accessToken}` }
+      });
+      const info = await res.json();
+      STATE.user = { name: info.name, email: info.email, picture: info.picture };
+      onSignedIn();
+    },
+  });
+}
+
+function startGoogleLogin() {
+  if (!_tokenClient) {
+    alert('La app aún está cargando. Espera un momento e intenta de nuevo.');
+    return;
+  }
+  _tokenClient.requestAccessToken({ prompt: 'select_account' });
+}
+
+function signOut() {
+  if (STATE.accessToken) google.accounts.oauth2.revoke(STATE.accessToken);
+  STATE.user = null;
+  STATE.accessToken = null;
+  _adminClicks = 0;
+  document.getElementById('adminConfigLink').classList.add('hidden');
+  document.getElementById('appRoot').classList.add('hidden');
+  document.getElementById('loginPage').style.display = 'flex';
+}
+
+function signOut() {
+  google.accounts.id.disableAutoSelect();
+  STATE.user = null;
+  STATE.accessToken = null;
+  document.getElementById('appRoot').classList.add('hidden');
+  document.getElementById('loginPage').style.display = 'flex';
+}
+
+// ════════════════════════════════════════
+// POST LOGIN
+// ════════════════════════════════════════
+async function onSignedIn() {
+  // Actualizar UI
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appRoot').classList.remove('hidden');
+  const av = document.getElementById('userAvatar');
+  if (STATE.user.picture) av.innerHTML = `<img src="${STATE.user.picture}" alt="">`;
+  else av.textContent = STATE.user.name.charAt(0).toUpperCase();
+  document.getElementById('userNameDisplay').textContent = STATE.user.name;
+
+  // Cargar datos
+  await loadSheetData();
+}
+
+// ════════════════════════════════════════
+// GOOGLE SHEETS API
+// ════════════════════════════════════════
+async function sheetsGet(range) {
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(range)}`,
+    { headers: { Authorization: `Bearer ${STATE.accessToken}` } }
+  );
+  if (!res.ok) throw new Error(`Sheets GET error: ${res.status}`);
+  return res.json();
+}
+
+async function sheetsAppend(range, values) {
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${STATE.accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) throw new Error(`Sheets APPEND error: ${res.status}`);
+  return res.json();
+}
+
+async function sheetsUpdate(range, values) {
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`,
+    {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${STATE.accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) throw new Error(`Sheets UPDATE error: ${res.status}`);
+  return res.json();
+}
+
+async function loadSheetData() {
+  try {
+    // Empleados: ID | Nombre | Email | Cargo | Jefe_Nombre | Jefe_Email | Dias_Disponibles | Dias_Acumulados | Dias_Usados | Fecha_Ingreso
+    const empData = await sheetsGet(`${CONFIG.SHEET_EMP}!A2:J`);
+    STATE.employees = (empData.values || []).map((r, i) => ({
+      rowIndex: i + 2,
+      id: r[0] || '',
+      nombre: r[1] || '',
+      email: r[2] || '',
+      cargo: r[3] || '',
+      jefeNombre: r[4] || '',
+      jefeEmail: r[5] || '',
+      diasDisponibles: parseInt(r[6]) || 0,
+      diasAcumulados: parseInt(r[7]) || 0,
+      diasUsados: parseInt(r[8]) || 0,
+      fechaIngreso: r[9] || '',
+    }));
+
+    // Solicitudes: ID | Emp_Email | Emp_Nombre | Fecha_Solicitud | Dias | Fechas_ISO | Estado | Jefe_Email | Notas | Motivo_Rechazo
+    const solData = await sheetsGet(`${CONFIG.SHEET_SOL}!A2:J`);
+    STATE.solicitudes = (solData.values || []).map((r, i) => ({
+      rowIndex: i + 2,
+      id: r[0] || '',
+      empEmail: r[1] || '',
+      empNombre: r[2] || '',
+      fechaSolicitud: r[3] || '',
+      dias: parseInt(r[4]) || 0,
+      fechasISO: r[5] || '',
+      estado: r[6] || 'Pendiente',
+      jefeEmail: r[7] || '',
+      notas: r[8] || '',
+      motivoRechazo: r[9] || '',
+    }));
+
+    // Calcular días automáticamente para todos los empleados
+    STATE.employees.forEach(emp => {
+      if (emp.fechaIngreso) {
+        emp.diasPeriodoActual = calcularDiasAcumulados(emp.fechaIngreso); // calculado automático
+        emp.diasPasados       = parseInt(emp.diasDisponibles) || 0;       // col G = saldo períodos anteriores (RRHH lo pone)
+        emp.diasDisponibles   = Math.max(0, emp.diasPeriodoActual + emp.diasPasados - emp.diasUsados);
+      } else {
+        emp.diasPeriodoActual = 0;
+        emp.diasPasados       = parseInt(emp.diasDisponibles) || 0;
+      }
+    });
+
+    // Encontrar empleado actual
+    STATE.employee = STATE.employees.find(e => e.email.toLowerCase() === STATE.user.email.toLowerCase());
+
+    if (!STATE.employee) {
+      showToast('error', `Tu email (${STATE.user.email}) no está registrado en el sistema. Contacta a RRHH.`);
+      return;
+    }
+
+    // Actualizar UI del empleado
+    updateEmployeeUI();
+    // Calcular fechas ya aprobadas
+    STATE.approvedDates = getApprovedDates();
+    // Verificar si es jefe
+    checkIfManager();
+    // Alerta 15 días
+    check15DaysAlert();
+    // Inicializar calendario
+    const today = new Date();
+    STATE.calYear = today.getFullYear();
+    STATE.calMonth = today.getMonth();
+    renderCalendar();
+    // Cargar mis solicitudes
+    renderMySolicitudes();
+
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Error cargando datos. Verifica la configuración.');
+    if (CONFIG.SHEET_ID.includes('TU_')) showSetupSection();
+  }
+}
+
+// ════════════════════════════════════════
+// CÁLCULO AUTOMÁTICO DÍAS ACUMULADOS
+// Período actual = desde último aniversario de ingreso hasta hoy
+// Ley colombiana: 1.25 días hábiles por mes trabajado (15/año)
+// ════════════════════════════════════════
+function calcularDiasAcumulados(fechaIngresoStr) {
+  if (!fechaIngresoStr) return 0;
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const ingreso = new Date(fechaIngresoStr);
+  if (isNaN(ingreso)) return 0;
+
+  // Encontrar el inicio del período actual (último aniversario)
+  let periodStart = new Date(ingreso);
+  while (true) {
+    const siguiente = new Date(periodStart);
+    siguiente.setFullYear(siguiente.getFullYear() + 1);
+    if (siguiente > hoy) break;
+    periodStart = siguiente;
+  }
+
+  // Días transcurridos en el período actual
+  const diasTranscurridos = Math.floor((hoy - periodStart) / (1000 * 60 * 60 * 24));
+  // Convertir a meses (promedio 30.44 días/mes)
+  const meses = diasTranscurridos / 30.44;
+  // 1.25 días por mes, máximo 15
+  const acumulados = Math.min(15, Math.round(meses * 1.25 * 10) / 10);
+  return acumulados;
+}
+
+function calcularInfoPeriodo(fechaIngresoStr) {
+  if (!fechaIngresoStr) return '';
+  const hoy = new Date();
+  const ingreso = new Date(fechaIngresoStr);
+  if (isNaN(ingreso)) return '';
+  let periodStart = new Date(ingreso);
+  while (true) {
+    const sig = new Date(periodStart);
+    sig.setFullYear(sig.getFullYear() + 1);
+    if (sig > hoy) break;
+    periodStart = sig;
+  }
+  const periodEnd = new Date(periodStart);
+  periodEnd.setFullYear(periodEnd.getFullYear() + 1);
+  const fmt = d => `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+  return `Período: ${fmt(periodStart)} → ${fmt(periodEnd)}`;
+}
+
+function updateEmployeeUI() {
+  const emp = STATE.employee;
+  const periodoInfo = calcularInfoPeriodo(emp.fechaIngreso);
+  document.getElementById('employeeInfo').textContent =
+    `${emp.nombre} · ${emp.cargo} · Jefe: ${emp.jefeNombre}${periodoInfo ? ' · ' + periodoInfo : ''}`;
+  document.getElementById('diasDisponibles').textContent = emp.diasDisponibles;
+  document.getElementById('diasPeriodoActual').textContent = emp.diasPeriodoActual;
+  document.getElementById('diasUsados').textContent = emp.diasUsados;
+
+  // Mostrar días pasados solo si tiene
+  if (emp.diasPasados > 0) {
+    document.getElementById('diasPasados').textContent = emp.diasPasados;
+    document.getElementById('boxPasados').style.display = '';
+    document.getElementById('alertaPasadosCount').textContent = emp.diasPasados;
+    document.getElementById('alertaPasados').classList.remove('hidden');
+  } else {
+    document.getElementById('boxPasados').style.display = 'none';
+    document.getElementById('alertaPasados').classList.add('hidden');
+  }
+}
+
+function getApprovedDates() {
+  const dates = [];
+  STATE.solicitudes
+    .filter(s => s.empEmail.toLowerCase() === STATE.user.email.toLowerCase() && s.estado === 'Aprobada')
+    .forEach(s => {
+      s.fechasISO.split(',').forEach(d => {
+        if (d.trim()) dates.push(d.trim());
+      });
+    });
+  return dates;
+}
+
+function checkIfManager() {
+  const isManager = STATE.employees.some(e => e.jefeEmail.toLowerCase() === STATE.user.email.toLowerCase());
+  if (isManager) {
+    document.getElementById('tab-aprobaciones').classList.remove('hidden');
+    updatePendingBadge();
+    renderAprobaciones();
+  }
+}
+
+function updatePendingBadge() {
+  const pending = STATE.solicitudes.filter(
+    s => s.jefeEmail.toLowerCase() === STATE.user.email.toLowerCase() && s.estado === 'Pendiente'
+  ).length;
+  const badge = document.getElementById('pendingBadge');
+  if (pending > 0) {
+    badge.textContent = pending;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function check15DaysAlert() {
+  const emp = STATE.employee;
+  if (emp && emp.diasPeriodoActual >= 15) {
+    document.getElementById('alert15count').textContent = emp.diasPeriodoActual;
+    document.getElementById('alert15dias').classList.remove('hidden');
+    // Enviar email de recordatorio (silencioso, solo una vez por sesión)
+    const alertKey = `ziette_alert15_${emp.email}_${new Date().toDateString()}`;
+    if (!sessionStorage.getItem(alertKey)) {
+      sessionStorage.setItem(alertKey, '1');
+      sendEmail15DaysAlert(emp);
+    }
+  }
+}
+
+// ════════════════════════════════════════
+// CALENDARIO
+// ════════════════════════════════════════
+function renderCalendar() {
+  const year = STATE.calYear;
+  const month = STATE.calMonth;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const holidays = getColombianHolidays(year);
+  // También festivos del mes siguiente por si el calendario muestra
+  const holidaysNext = getColombianHolidays(year + (month === 11 ? 1 : 0));
+  const allHolidays = new Set([...holidays, ...holidaysNext]);
+
+  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('calMonthLabel').textContent = `${monthNames[month]} ${year}`;
+
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = '';
+
+  // Headers días
+  ['Lu','Ma','Mi','Ju','Vi','Sá','Do'].forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-header';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  // Primer día del mes (ajustado a Lunes=0)
+  const firstDay = new Date(year, month, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  for (let i = 0; i < offset; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    const key = dateKey(date);
+    const el = document.createElement('div');
+    el.textContent = d;
+
+    const isTod = dateKey(date) === dateKey(today);
+    const isPast = date < today;
+    const isHol = isHoliday(date, allHolidays);
+    const isWknd = isWeekend(date);
+    const isSelected = STATE.selectedDays.includes(key);
+    const isApproved = STATE.approvedDates.includes(key);
+
+    if (isTod) el.classList.add('today');
+
+    if (isApproved) {
+      el.className = 'cal-day approved-vacation';
+      el.title = 'Vacaciones aprobadas';
+    } else if (isHol) {
+      el.className = 'cal-day holiday';
+      // Buscar nombre del festivo
+      const mmdd = key.slice(5);
+      el.setAttribute('data-tip', HOLIDAY_NAMES[mmdd] || 'Festivo');
+    } else if (isWknd) {
+      el.className = 'cal-day weekend';
+    } else if (isPast) {
+      el.className = 'cal-day past';
+    } else {
+      el.className = 'cal-day workday';
+      if (isSelected) el.classList.add('selected');
+      el.addEventListener('click', () => toggleDay(key, el));
+    }
+
+    if (isTod) el.classList.add('today');
+    grid.appendChild(el);
+  }
+}
+
+function toggleDay(key, el) {
+  const idx = STATE.selectedDays.indexOf(key);
+  if (idx === -1) {
+    STATE.selectedDays.push(key);
+    el.classList.add('selected');
+  } else {
+    STATE.selectedDays.splice(idx, 1);
+    el.classList.remove('selected');
+  }
+  STATE.selectedDays.sort();
+  updateSelectedPanel();
+}
+
+function updateSelectedPanel() {
+  const panel = document.getElementById('selectedPanel');
+  const chips = document.getElementById('dayChips');
+  const count = document.getElementById('selectedCount');
+
+  if (STATE.selectedDays.length === 0) {
+    panel.classList.add('hidden');
+    return;
+  }
+  panel.classList.remove('hidden');
+  count.textContent = STATE.selectedDays.length;
+  chips.innerHTML = '';
+  STATE.selectedDays.forEach(key => {
+    const chip = document.createElement('div');
+    chip.className = 'day-chip';
+    chip.innerHTML = `${formatDateES(key)} <button onclick="removeDay('${key}')" title="Quitar">×</button>`;
+    chips.appendChild(chip);
+  });
+}
+
+function removeDay(key) {
+  STATE.selectedDays = STATE.selectedDays.filter(d => d !== key);
+  renderCalendar();
+  updateSelectedPanel();
+}
+
+function clearSelection() {
+  STATE.selectedDays = [];
+  renderCalendar();
+  updateSelectedPanel();
+}
+
+function prevMonth() {
+  STATE.calMonth--;
+  if (STATE.calMonth < 0) { STATE.calMonth = 11; STATE.calYear--; }
+  renderCalendar();
+}
+function nextMonth() {
+  STATE.calMonth++;
+  if (STATE.calMonth > 11) { STATE.calMonth = 0; STATE.calYear++; }
+  renderCalendar();
+}
+
+// ════════════════════════════════════════
+// SOLICITAR VACACIONES
+// ════════════════════════════════════════
+function submitRequest() {
+  if (STATE.selectedDays.length === 0) {
+    showToast('error', 'Selecciona al menos un día hábil.');
+    return;
+  }
+  if (STATE.selectedDays.length > STATE.employee.diasDisponibles) {
+    showToast('error', `Solo tienes ${STATE.employee.diasDisponibles} días disponibles.`);
+    return;
+  }
+
+  // Mostrar popup de aviso
+  STATE.popupConfirmCallback = doSubmitRequest;
+  document.getElementById('popupNotice').classList.remove('hidden');
+}
+
+function closePopup(action) {
+  document.getElementById('popupNotice').classList.add('hidden');
+  if (action === 'confirm' && STATE.popupConfirmCallback) {
+    STATE.popupConfirmCallback();
+    STATE.popupConfirmCallback = null;
+  }
+}
+
+async function doSubmitRequest() {
+  const emp = STATE.employee;
+  const notas = document.getElementById('requestNotes').value.trim();
+  const dias = STATE.selectedDays.length;
+  const fechasStr = STATE.selectedDays.join(',');
+  const today = new Date().toISOString().split('T')[0];
+  const id = `SOL-${Date.now()}`;
+
+  try {
+    // Guardar en Sheets
+    await sheetsAppend(`${CONFIG.SHEET_SOL}!A:J`, [[
+      id, emp.email, emp.nombre, today, dias, fechasStr,
+      'Pendiente', emp.jefeEmail, notas, ''
+    ]]);
+
+    // Enviar email al jefe
+    await sendEmailSolicitud(emp, dias, STATE.selectedDays, notas, id);
+
+    // Recargar datos
+    await loadSheetData();
+    clearSelection();
+    showToast('success', `Solicitud enviada a ${emp.jefeNombre}. ¡Pendiente de aprobación!`);
+    switchTab('mis-solicitudes');
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Error enviando la solicitud. Intenta de nuevo.');
+  }
+}
+
+// ════════════════════════════════════════
+// MIS SOLICITUDES
+// ════════════════════════════════════════
+function renderMySolicitudes() {
+  const container = document.getElementById('mySolicitudesContent');
+  const mias = STATE.solicitudes
+    .filter(s => s.empEmail.toLowerCase() === STATE.user.email.toLowerCase())
+    .reverse();
+
+  if (mias.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🌴</div><p>Aún no tienes solicitudes de vacaciones.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = mias.map(s => `
+    <div class="request-card">
+      <div class="req-header">
+        <div>
+          <div class="req-name">${s.dias} día(s) hábil(es)</div>
+          <div class="req-date">Solicitado: ${formatDateES(s.fechaSolicitud)}</div>
+        </div>
+        <span class="status-badge status-${s.estado.toLowerCase()}">${s.estado}</span>
+      </div>
+      <div class="req-days">
+        📅 ${s.fechasISO.split(',').map(d => formatDateES(d.trim())).join(' · ')}
+      </div>
+      ${s.notas ? `<div style="font-size:13px;color:var(--text-mid);margin-bottom:8px;">💬 ${s.notas}</div>` : ''}
+      ${s.motivoRechazo ? `<div style="font-size:13px;color:var(--danger);"><strong>Motivo rechazo:</strong> ${s.motivoRechazo}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════
+// APROBACIONES
+// ════════════════════════════════════════
+function renderAprobaciones() {
+  const container = document.getElementById('aprobacionesContent');
+  const pendientes = STATE.solicitudes.filter(
+    s => s.jefeEmail.toLowerCase() === STATE.user.email.toLowerCase() && s.estado === 'Pendiente'
+  );
+
+  if (pendientes.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">✅</div><p>No hay solicitudes pendientes. ¡Todo al día!</p></div>`;
+    return;
+  }
+
+  container.innerHTML = pendientes.map(s => `
+    <div class="request-card">
+      <div class="req-header">
+        <div>
+          <div class="req-name">${s.empNombre}</div>
+          <div class="req-date">Solicitado: ${formatDateES(s.fechaSolicitud)} · <strong>${s.dias} día(s) hábil(es)</strong></div>
+        </div>
+        <span class="status-badge status-pendiente">Pendiente</span>
+      </div>
+      <div class="req-days">
+        📅 ${s.fechasISO.split(',').map(d => formatDateES(d.trim())).join(' · ')}
+      </div>
+      ${s.notas ? `<div style="font-size:13px;color:var(--text-mid);margin-bottom:12px;">💬 "${s.notas}"</div>` : ''}
+      <div class="req-actions">
+        <button class="btn btn-success btn-sm" onclick="approveRequest('${s.id}')">✓ Aprobar</button>
+        <button class="btn btn-danger btn-sm" onclick="openRejectModal('${s.id}')">✕ Rechazar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function approveRequest(solicitudId) {
+  const sol = STATE.solicitudes.find(s => s.id === solicitudId);
+  if (!sol) return;
+
+  try {
+    // Actualizar estado en Sheets
+    await updateSolicitudEstado(sol.rowIndex, 'Aprobada', '');
+
+    // Actualizar días del empleado
+    const emp = STATE.employees.find(e => e.email.toLowerCase() === sol.empEmail.toLowerCase());
+    if (emp) {
+      const newUsados = emp.diasUsados + sol.dias;
+      // Solo actualiza col I (días usados) — col G la maneja RRHH manualmente
+      await sheetsUpdate(`${CONFIG.SHEET_EMP}!I${emp.rowIndex}`, [[newUsados]]);
+    }
+
+    // Enviar email de aprobación al trabajador y a RRHH
+    await sendEmailAprobacion(sol, emp);
+
+    await loadSheetData();
+    renderAprobaciones();
+    updatePendingBadge();
+    showToast('success', `Vacaciones de ${sol.empNombre} aprobadas y notificadas.`);
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Error aprobando la solicitud.');
+  }
+}
+
+function openRejectModal(solicitudId) {
+  STATE.pendingRejectId = solicitudId;
+  document.getElementById('rejectReason').value = '';
+  document.getElementById('popupReject').classList.remove('hidden');
+}
+
+async function confirmReject() {
+  const motivo = document.getElementById('rejectReason').value.trim();
+  if (!motivo) { showToast('error', 'Por favor indica el motivo del rechazo.'); return; }
+  document.getElementById('popupReject').classList.add('hidden');
+
+  const sol = STATE.solicitudes.find(s => s.id === STATE.pendingRejectId);
+  if (!sol) return;
+
+  try {
+    await updateSolicitudEstado(sol.rowIndex, 'Rechazada', motivo);
+    await sendEmailRechazo(sol, motivo);
+    await loadSheetData();
+    renderAprobaciones();
+    updatePendingBadge();
+    showToast('info', `Solicitud de ${sol.empNombre} rechazada.`);
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Error rechazando la solicitud.');
+  }
+}
+
+async function updateSolicitudEstado(rowIndex, estado, motivoRechazo) {
+  await sheetsUpdate(
+    `${CONFIG.SHEET_SOL}!G${rowIndex}:J${rowIndex}`,
+    [[estado, '', '', motivoRechazo]]
+  );
+}
+
+// ════════════════════════════════════════
+// GMAIL API — ENVÍO DE CORREOS
+// ════════════════════════════════════════
+async function sendGmail(to, subject, htmlBody) {
+  const from = STATE.user.email;
+  const message = [
+    `From: ${STATE.user.name} <${from}>`,
+    `To: ${to}`,
+    `Subject: =?UTF-8?B?${btoa(unescape(encodeURIComponent(subject)))}?=`,
+    'MIME-Version: 1.0',
+    'Content-Type: text/html; charset=utf-8',
+    '',
+    htmlBody,
+  ].join('\r\n');
+
+  const encoded = btoa(unescape(encodeURIComponent(message)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${STATE.accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ raw: encoded }),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    console.error('Gmail error', err);
+  }
+}
+
+function emailTemplate(title, bodyContent) {
+  return `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f4f6f8;padding:20px;">
+    <div style="background:#1A2530;padding:20px 28px;border-radius:12px 12px 0 0;text-align:center;">
+      <span style="font-size:32px;font-weight:300;color:#FF4B00;letter-spacing:-1px;">Ziette</span>
+    </div>
+    <div style="background:white;padding:28px;border-radius:0 0 12px 12px;border:1px solid #DDE3EA;border-top:none;">
+      <h2 style="color:#1A2530;font-size:20px;margin-bottom:16px;">${title}</h2>
+      ${bodyContent}
+      <hr style="border:none;border-top:1px solid #DDE3EA;margin:24px 0 16px;">
+      <p style="color:#8FA3B1;font-size:12px;">
+        Este es un mensaje automático del sistema de vacaciones Ziette.<br>
+        Por favor no responda directamente a este correo.
+      </p>
+    </div>
+  </div>`;
+}
+
+async function sendEmailSolicitud(emp, dias, fechas, notas, id) {
+  const datesHtml = fechas.map(d => `<li style="margin:4px 0;">${formatDateFullES(d)}</li>`).join('');
+  const body = emailTemplate('Nueva solicitud de vacaciones', `
+    <p style="color:#4A6278;">Hola <strong>${emp.jefeNombre}</strong>,</p>
+    <p style="color:#4A6278;margin:12px 0;">
+      <strong>${emp.nombre}</strong> (${emp.cargo}) ha solicitado vacaciones:
+    </p>
+    <div style="background:#FFF0E8;border:1px solid #FFD4BC;border-radius:8px;padding:16px;margin:16px 0;">
+      <p><strong>📅 Días solicitados:</strong> ${dias} día(s) hábil(es)</p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;">${datesHtml}</ul>
+      ${notas ? `<p style="margin-top:10px;"><strong>💬 Notas:</strong> ${notas}</p>` : ''}
+      <p style="margin-top:8px;color:#8FA3B1;font-size:12px;">ID: ${id}</p>
+    </div>
+    <div style="text-align:center;margin-top:20px;">
+      <a href="https://ziettesas.github.io/vacaciones-ziette/" style="display:inline-block;background:#FF4B00;color:white;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
+        ✅ Ir a la app para aprobar o rechazar
+      </a>
+    </div>
+    <p style="color:#8FA3B1;font-size:12px;margin-top:12px;text-align:center;">
+      O copia este enlace: https://ziettesas.github.io/vacaciones-ziette/
+    </p>
+  `);
+  await sendGmail(emp.jefeEmail, `Solicitud de vacaciones · ${emp.nombre}`, body);
+}
+
+async function sendEmailAprobacion(sol, emp) {
+  const datesHtml = sol.fechasISO.split(',').map(d => `<li style="margin:4px 0;">${formatDateFullES(d.trim())}</li>`).join('');
+  const body = emailTemplate('✅ Vacaciones aprobadas', `
+    <p style="color:#4A6278;">Hola <strong>${sol.empNombre}</strong>,</p>
+    <p style="color:#4A6278;margin:12px 0;">
+      ¡Tus vacaciones han sido <strong style="color:#27AE60;">aprobadas</strong>! 🎉
+    </p>
+    <div style="background:#D5F5E3;border:1px solid #A9DFBF;border-radius:8px;padding:16px;margin:16px 0;">
+      <p><strong>📅 Días aprobados:</strong> ${sol.dias} día(s) hábil(es)</p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;">${datesHtml}</ul>
+    </div>
+    <p style="color:#4A6278;">RRHH ha sido notificado para gestionar los trámites correspondientes. ¡Disfruta tus vacaciones!</p>
+  `);
+
+  // Al trabajador
+  await sendGmail(sol.empEmail, `✅ Tus vacaciones han sido aprobadas`, body);
+
+  // A RRHH (copia)
+  const hrBody = emailTemplate('✅ Vacaciones aprobadas — Notificación RRHH', `
+    <p style="color:#4A6278;">Este es un aviso para RRHH:</p>
+    <div style="background:#D5F5E3;border:1px solid #A9DFBF;border-radius:8px;padding:16px;margin:16px 0;">
+      <p><strong>Empleado:</strong> ${sol.empNombre} (${sol.empEmail})</p>
+      <p><strong>Aprobado por:</strong> ${STATE.user.name}</p>
+      <p><strong>📅 Días:</strong> ${sol.dias} día(s) hábil(es)</p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;">${datesHtml}</ul>
+    </div>
+    <p style="color:#4A6278;">Por favor gestiona la novedad de vacaciones correspondiente.</p>
+  `);
+  await sendGmail(CONFIG.HR_EMAIL, `Vacaciones aprobadas · ${sol.empNombre}`, hrBody);
+}
+
+async function sendEmailRechazo(sol, motivo) {
+  const body = emailTemplate('❌ Solicitud de vacaciones rechazada', `
+    <p style="color:#4A6278;">Hola <strong>${sol.empNombre}</strong>,</p>
+    <p style="color:#4A6278;margin:12px 0;">
+      Tu solicitud de vacaciones ha sido <strong style="color:#E74C3C;">rechazada</strong>.
+    </p>
+    <div style="background:#FEE2E2;border:1px solid #FDA29B;border-radius:8px;padding:16px;margin:16px 0;">
+      <p><strong>Motivo:</strong> ${motivo}</p>
+    </div>
+    <p style="color:#4A6278;">Si tienes preguntas, por favor comunícate con tu jefe directo (<strong>${STATE.user.name}</strong>).</p>
+  `);
+  await sendGmail(sol.empEmail, `Solicitud de vacaciones rechazada`, body);
+}
+
+async function sendEmail15DaysAlert(emp) {
+  const body = emailTemplate('⚠️ Tienes vacaciones pendientes por programar', `
+    <p style="color:#4A6278;">Hola <strong>${emp.nombre}</strong>,</p>
+    <p style="color:#4A6278;margin:12px 0;">
+      Según la legislación colombiana, tienes derecho a <strong>15 días hábiles de vacaciones anuales</strong>.
+    </p>
+    <div style="background:#FFF9E6;border:1px solid #FFE08A;border-radius:8px;padding:16px;margin:16px 0;">
+      <p><strong>Días acumulados:</strong> ${emp.diasAcumulados} días</p>
+      <p style="margin-top:8px;color:#7D5A00;">
+        Recuerda que es importante programar tus vacaciones pronto para garantizar tu descanso y
+        el cumplimiento de la normativa laboral colombiana.
+      </p>
+    </div>
+    <p style="color:#4A6278;">Por favor ingresa a la app de vacaciones Ziette y programa tus días disponibles.</p>
+  `);
+
+  // Al trabajador
+  await sendGmail(emp.email, `⚠️ Tienes ${emp.diasAcumulados} días de vacaciones pendientes`, body);
+
+  // Copia al jefe
+  if (emp.jefeEmail) {
+    const hrBody = emailTemplate('⚠️ Empleado con vacaciones acumuladas', `
+      <p style="color:#4A6278;">Hola <strong>${emp.jefeNombre}</strong>,</p>
+      <p style="color:#4A6278;margin:12px 0;">
+        Te informamos que <strong>${emp.nombre}</strong> tiene <strong>${emp.diasAcumulados} días</strong> de vacaciones acumulados.
+        Por ley colombiana, se recomienda que programe sus vacaciones pronto.
+      </p>
+      <p style="color:#4A6278;">Se ha notificado al empleado directamente.</p>
+    `);
+    await sendGmail(emp.jefeEmail, `⚠️ ${emp.nombre} tiene vacaciones pendientes`, hrBody);
+  }
+}
+
+// ════════════════════════════════════════
+// NAVEGACIÓN
+// ════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`page-${tab}`).classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+
+  if (tab === 'mis-solicitudes') renderMySolicitudes();
+  if (tab === 'aprobaciones') renderAprobaciones();
+}
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+function showToast(type, msg) {
+  const toast = document.getElementById('toast');
+  const el = document.createElement('div');
+  el.className = `toast-msg ${type}`;
+  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+  el.innerHTML = `<span>${icons[type] || 'ℹ'}</span> ${msg}`;
+  toast.appendChild(el);
+  setTimeout(() => el.remove(), 4500);
+}
+
+// ════════════════════════════════════════
+// SETUP / CONFIGURACIÓN
+// ════════════════════════════════════════
+function showLoginSetup() {
+  document.getElementById('loginNormal').classList.add('hidden');
+  document.getElementById('loginSetup').classList.remove('hidden');
+  document.getElementById('cfgClientIdLogin').value = localStorage.getItem('ziette_client_id') || '';
+  document.getElementById('cfgSheetIdLogin').value  = localStorage.getItem('ziette_sheet_id')  || '';
+  document.getElementById('cfgHrEmailLogin').value  = localStorage.getItem('ziette_hr_email')  || '';
+}
+function showLoginNormal() {
+  document.getElementById('loginSetup').classList.add('hidden');
+  document.getElementById('loginNormal').classList.remove('hidden');
+}
+function saveConfigFromLogin() {
+  const clientId = document.getElementById('cfgClientIdLogin').value.trim();
+  const sheetId  = document.getElementById('cfgSheetIdLogin').value.trim();
+  const hrEmail  = document.getElementById('cfgHrEmailLogin').value.trim();
+  if (!clientId || !sheetId || !hrEmail) {
+    alert('Por favor completa todos los campos.');
+    return;
+  }
+  localStorage.setItem('ziette_client_id', clientId);
+  localStorage.setItem('ziette_sheet_id', sheetId);
+  localStorage.setItem('ziette_hr_email', hrEmail);
+  location.reload();
+}
+function showSetupSection() {
+  document.getElementById('setupSection').classList.remove('hidden');
+  document.getElementById('cfgClientId').value = CONFIG.CLIENT_ID.includes('TU_') ? '' : CONFIG.CLIENT_ID;
+  document.getElementById('cfgSheetId').value = CONFIG.SHEET_ID.includes('TU_') ? '' : CONFIG.SHEET_ID;
+  document.getElementById('cfgHrEmail').value = CONFIG.HR_EMAIL;
+}
+
+function saveConfig() {
+  const clientId = document.getElementById('cfgClientId').value.trim();
+  const sheetId  = document.getElementById('cfgSheetId').value.trim();
+  const hrEmail  = document.getElementById('cfgHrEmail').value.trim();
+  if (!clientId || !sheetId || !hrEmail) {
+    showToast('error', 'Completa todos los campos de configuración.');
+    return;
+  }
+  localStorage.setItem('ziette_client_id', clientId);
+  localStorage.setItem('ziette_sheet_id', sheetId);
+  localStorage.setItem('ziette_hr_email', hrEmail);
+  CONFIG.CLIENT_ID = clientId;
+  CONFIG.SHEET_ID  = sheetId;
+  CONFIG.HR_EMAIL  = hrEmail;
+  document.getElementById('setupSection').classList.add('hidden');
+  showToast('success', 'Configuración guardada. Recarga la página para iniciar sesión.');
+  setTimeout(() => location.reload(), 1500);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+window.onload = () => {
+  // Si el Google Sign-In ya cargó
+  if (typeof google !== 'undefined') {
+    initGoogleAuth();
+  } else {
+    // Esperar a que cargue el script de Google
+    const check = setInterval(() => {
+      if (typeof google !== 'undefined') {
+        clearInterval(check);
+        initGoogleAuth();
+      }
+    }, 200);
+  }
+};
+</script>
+</body>
+</html>
